@@ -41,7 +41,7 @@ def main_p1(filename):
 
     m = m.transpose()
 
-    for fold in folds:
+    for i, fold in enumerate(folds):
         m1, _, m2 = np.split(m, [fold.index, fold.index+1], axis=fold.axis)
         m2 = np.flip(m2, axis=fold.axis)
         if m1.shape != m2.shape:
@@ -53,8 +53,12 @@ def main_p1(filename):
             m1, m2 = larger, z
         m = m1 + m2
 
+        if i == 0:
+            res = sum(sum(1 if x else 0 for x in row) for row in m)
+            print(f'result p1: {res}')
+
     for row in m:
-        string = ''.join('##' if x > 0 else '  ' for x in row)
+        string = ''.join('\u2593' if x else '\u2591' for x in row)
         print(string)
 
 
